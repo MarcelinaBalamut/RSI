@@ -1,0 +1,20 @@
+﻿Lista ksiazek
+Id: 0, Tytul: Wiersze, Autor: Jakn Kochanowski Rodzaj okladki: TWARDA Streszczenie true
+Id: 1, Tytul: Granica, Autor: Zofia Nałkowksa Rodzaj okladki: MIEKKA Streszczenie true
+Id: 2, Tytul: Wiersze, Autor: WisławaSzymborska Rodzaj okladki: TWARDA Streszczenie false
+Id: 3, Tytul: Zdrowie i uroda, Autor: Ewa Nowak Rodzaj okladki: MIEKKA Streszczenie false
+Id: 4, Tytul: Dziady, Autor: Adam Mickiewicz  Rodzaj okladki: TWARDA Streszczenie false
+Id: 5, Tytul: Lalka, Autor: Bolesław Prus Rodzaj okladki: MIEKKA Streszczenie true
+
+
+
+
+
+
+
+
+
+
+
+
+
