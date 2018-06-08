@@ -13,84 +13,73 @@ public class Request2AMSAgent extends Agent {
   public void setup() {
 
     getContentManager().registerLanguage(new jade.content.lang.sl.SLCodec(0));
+
     getContentManager().registerOntology(JADEManagementOntology.getInstance());
 
-    CreateAgent ca = new CreateAgent();
-    ca.setAgentName("john");
-    ca.setClassName("jade.core.Agent");
-    ca.setContainer(new ContainerID("Main-Container", null));
+    CreateAgent agent = new CreateAgent();
 
-    Action actExpr = new Action(getAMS(), ca);
+    agent.setAgentName("john");
 
-    ACLMessage request = new ACLMessage(ACLMessage.REQUEST);
-    request.addReceiver(getAMS());
-    request.setOntology(JADEManagementOntology.getInstance().getName());
-    request.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
-    request.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
-    try {
-      getContentManager().fillContent(request, actExpr);
-      addBehaviour(new AchieveREInitiator(this, request) {
+    agent.setClassName("jade.core.Agent");
+
+    agent.setContainer(new ContainerID("Main-Container", null));
+
+    Action action = new Action(getAMS(), agent);
+
+    ACLMessage req = new ACLMessage(ACLMessage.REQUEST);
+    req.addReceiver(getAMS());
+
+
+    req.setOntology(JADEManagementOntology.getInstance().getName());
+
+    req.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
+
+    req.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
+    try
+    {
+      getContentManager().fillContent(req, action);
+      addBehaviour(new AchieveREInitiator(this, req) {
+
         protected void handleInform(ACLMessage inform) {
-          System.out.println("Agent successfully created");
+          System.out.println("Agent  created");
         }
+
         protected void handleFailure(ACLMessage failure) {
-          System.out.println("Error creating agent.\n"+failure);
+          System.out.println("Error creating" + failure);
         }
       } );
     }
-    catch (Exception e) {
+    catch (Exception e)
+    {
       e.printStackTrace();
     }
 
-  /*  
-    addBehaviour(new WakerBehaviour(this, 1000) {
-        protected void onWake() {
-        	KillAgent ka = new KillAgent();
-        	ka.setAgent(new AID("john", AID.ISLOCALNAME));
-        	Action a = new Action();
-        	a.setActor(getAMS());
-            a.setAction(ka);
-    
-        	ACLMessage request2 = new ACLMessage(ACLMessage.REQUEST);
-        	request2.clearAllReceiver();
-        	request2.addReceiver(getAMS());
-        	request2.setOntology(JADEManagementOntology.NAME);
-        	request2.setSender(getAID());
-        	request2.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
-        	request2.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
-        	try {
-        		System.out.println("Try to delete john");
-        		getContentManager().fillContent(request2, a);
-        		send(request2);
-        	}
-        	catch (Exception e) {
-        		System.out.println("Cannot delete john");
-        	}
-        }
-    });
 
-    */
-   /**/
-    addBehaviour(new WakerBehaviour(this, 2000) {
+    addBehaviour(new WakerBehaviour(this, 2000)
+    {
       protected void onWake() {
-        // Create a request to perform the where-is-agent action       	
-    	WhereIsAgentAction wa = new WhereIsAgentAction();
-        wa.setAgentIdentifier(new AID("john", AID.ISLOCALNAME));
-        Action actExpr = new Action(getAMS(), wa);
-        ACLMessage request = new ACLMessage(ACLMessage.REQUEST);
-        request.addReceiver(getAMS());
-        request.setOntology(JADEManagementOntology.getInstance().getName());
-        request.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
-        request.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
+
+    	WhereIsAgentAction whereAgent = new WhereIsAgentAction();
+        whereAgent.setAgentIdentifier(new AID("john", AID.ISLOCALNAME));
+
+        Action action = new Action(getAMS(), whereAgent);
+        ACLMessage req = new ACLMessage(ACLMessage.REQUEST);
+        req.addReceiver(getAMS());
+
+        req.setOntology(JADEManagementOntology.getInstance().getName());
+
+        req.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
+
+        req.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
 
         try { 
-          getContentManager().fillContent(request, actExpr);
-          addBehaviour(new AchieveREInitiator(myAgent, request) {
+          getContentManager().fillContent(req, action);
+          addBehaviour(new AchieveREInitiator(myAgent, req) {
             protected void handleInform(ACLMessage inform) {
               try {
-                Result r = (Result)myAgent.getContentManager().extractContent(inform);
-                ContainerID cid = (ContainerID) r.getValue();
-                System.out.println("john is in "+cid);
+                Result result = (Result)myAgent.getContentManager().extractContent(inform);
+                ContainerID container = (ContainerID) result.getValue();
+                System.out.println("john is in "+container);
               }
               catch (Exception e) {
             	System.out.println("john was killed");
@@ -108,7 +97,9 @@ public class Request2AMSAgent extends Agent {
 	    ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 	    msg.addReceiver(getAMS());
 	    msg.setLanguage(FIPANames.ContentLanguage.FIPA_SL0);
+
         msg.setProtocol(FIPANames.InteractionProtocol.FIPA_REQUEST);
+
 	    msg.setOntology(JADEManagementOntology.getInstance().getName());
 	    try {
 	    	getContentManager().fillContent(msg,new Action(getAID(), new ShutdownPlatform()));
